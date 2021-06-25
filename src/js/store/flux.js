@@ -21,6 +21,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
+			loadAllPlanets: async () => {
+				//let dataNext = data.next;
+				let plan = [];
+				let pages = "";
+				let url = "https://www.swapi.tech/api/planets";
+				fetch(url)
+					.then(res => res.json())
+					.then(data => {
+						pages = data.total_pages;
+					});
+				for (let i = 0; i <= pages; i++) {
+					let response = await fetch(url);
+					let respJson = await response.json();
+					let urlReplace = respJson.next;
+					respJson.results.map(item => {
+						plan.push(item);
+					});
+				}
+				setStore({ planets: plan });
+			},
+
+			/*
 			loadSomeData: () => {
 				let planets = [];
 				fetch("https://www.swapi.tech/api/planets")
@@ -42,7 +64,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 
 					.catch(err => console.error(err));
-			},
+			},*/
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();

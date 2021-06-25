@@ -7,7 +7,7 @@ export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	useEffect(() => {
-		actions.loadSomeData();
+		actions.loadAllPlanets();
 	}, []);
 
 	let planetsDisplayed = "";
