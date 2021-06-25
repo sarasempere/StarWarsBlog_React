@@ -20,6 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
+
 			loadSomeData: () => {
 				let planets = [];
 				fetch("https://www.swapi.tech/api/planets")
@@ -33,13 +34,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 								.then(info => {
 									info.results.map(planet => planets.push(planet));
 									//planets.push(info.results);
-									console.log(planets, info.next);
 								});
 						}
 						const store = getStore();
 						setStore({ planets: planets });
 						console.log(planets);
 					})
+
 					.catch(err => console.error(err));
 			},
 			changeColor: (index, color) => {
