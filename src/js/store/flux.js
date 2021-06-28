@@ -13,7 +13,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			planets: [{}]
+			planets: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -21,50 +21,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
-			loadAllPlanets: async () => {
-				//let dataNext = data.next;
-				let plan = [];
-				let pages = "";
-				let url = "https://www.swapi.tech/api/planets";
-				fetch(url)
-					.then(res => res.json())
-					.then(data => {
-						pages = data.total_pages;
-					});
-				for (let i = 0; i <= pages; i++) {
-					let response = await fetch(url);
-					let respJson = await response.json();
-					let urlReplace = respJson.next;
-					respJson.results.map(item => {
-						plan.push(item);
-					});
-				}
-				setStore({ planets: plan });
-			},
-
-			/*
 			loadSomeData: () => {
 				let planets = [];
 				fetch("https://www.swapi.tech/api/planets")
 					.then(res => res.json())
 					.then(data => {
-						data.results.map(planet => planets.push(planet));
-						//planets.push(data.results);
-						for (let i = 2; i <= data.total_pages; i++) {
+						let pages = data.total_pages;
+						for (let i = 0; i < pages; i++) {
 							fetch("https://www.swapi.tech/api/planets?page=" + i + "&limit=10")
 								.then(res => res.json())
-								.then(info => {
-									info.results.map(planet => planets.push(planet));
-									//planets.push(info.results);
-								});
+								.then(data => {
+									data.results.map(planet => planets.push(planet));
+									const store = getStore();
+									setStore({ planets: planets });
+									console.log(planets);
+								})
+
+								.catch(err => console.error(err));
 						}
-						const store = getStore();
-						setStore({ planets: planets });
-						console.log(planets);
 					})
 
 					.catch(err => console.error(err));
-			},*/
+			},
+
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();

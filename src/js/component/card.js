@@ -9,7 +9,7 @@ export const Card = l => {
 	console.log(l, "url");
 	const [charged, setCharged] = useState(undefined);
 	useEffect(() => {
-		fetch(l.urlData)
+		fetch(l.urlData.url)
 			.then(res => res.json())
 			.then(data => {
 				setCharged(data.result);
@@ -18,7 +18,7 @@ export const Card = l => {
 			.catch(err => console.error(err));
 	}, []);
 	return (
-		<div className="col-sm-3 m-2">
+		<div className="col-4">
 			<div className="card">
 				<img className="card-img-top" alt="..." />
 				<div className="card-body">
